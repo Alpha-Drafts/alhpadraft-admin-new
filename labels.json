@@ -1,0 +1,127 @@
+[
+  {
+    "name": "✍🏽 content update",
+    "description": "Copywriting, content revision, and content enhancement",
+    "color": "5319E7"
+  },
+  {
+    "name": "🧩 dependencies",
+    "description": "Pull requests that update libraries, packages, or dependency files",
+    "color": "0366D6"
+  },
+  {
+    "name": "📝 documentation",
+    "description": "Improvements or additions to project documentation",
+    "color": "0075CA"
+  },
+  {
+    "name": "❌ invalid",
+    "description": "This issue is incorrect, not reproducible, or doesn't follow guidelines",
+    "color": "E4E669"
+  },
+  {
+    "name": "❌ wontfix",
+    "description": "This won't be worked on due to scope, priority, or policy",
+    "color": "FFFFFF"
+  },
+  {
+    "name": "❓ question",
+    "description": "Additional clarification or information is needed",
+    "color": "D876E3"
+  },
+  {
+    "name": "🌱 good first issue",
+    "description": "Suitable for newcomers to contribute",
+    "color": "7057FF"
+  },
+  {
+    "name": "🐛 bug",
+    "description": "A confirmed bug or unexpected behavior",
+    "color": "B60205"
+  },
+  {
+    "name": "👷🏽 backend",
+    "description": "Backend development, database, or server-side work",
+    "color": "1D76DB"
+  },
+  {
+    "name": "👷🏽 frontend",
+    "description": "Frontend/UI implementation tasks",
+    "color": "FF6B6B"
+  },
+  {
+    "name": "📋 duplicate",
+    "description": "This issue or pull request already exists",
+    "color": "CFD3D7"
+  },
+  {
+    "name": "📝 draft",
+    "description": "Work in progress - not yet ready for review",
+    "color": "FBCA04"
+  },
+  {
+    "name": "🔎 seo",
+    "description": "Search engine optimization-related tasks",
+    "color": "006B75"
+  },
+  {
+    "name": "🔴 critical priority",
+    "description": "Requires immediate attention and resolution",
+    "color": "D93F0B"
+  },
+  {
+    "name": "🚀 CI/CD",
+    "description": "Continuous integration/deployment setup or automation",
+    "color": "0052CC"
+  },
+  {
+    "name": "🚑 help wanted",
+    "description": "Maintainers are seeking additional help",
+    "color": "008672"
+  },
+  {
+    "name": "🟠 high priority",
+    "description": "High urgency - address soon",
+    "color": "FF9500"
+  },
+  {
+    "name": "🟡 mid priority",
+    "description": "Moderate urgency - should be addressed",
+    "color": "FFD700"
+  },
+  {
+    "name": "🟢 low priority",
+    "description": "Can be handled later - not time-sensitive",
+    "color": "0E8A16"
+  },
+  {
+    "name": "🧑🏽‍🎨 design",
+    "description": "Visual, graphic, and interface design work",
+    "color": "F9D0C4"
+  },
+  {
+    "name": "🧑🏽‍🎨 user experience",
+    "description": "UX improvements to flow, usability, and satisfaction",
+    "color": "FF91A4"
+  },
+  {
+    "name": "🧪 testing / QA",
+    "description": "Ensuring functionality through tests and quality assurance",
+    "color": "BFD4F2"
+  },
+  {
+    "name": "🧹 refactoring",
+    "description": "Code restructuring without changing functionality",
+    "color": "D4C5F9"
+  },
+  {
+    "name": "🩺 triage",
+    "description": "Initial review to assess priority and categorize the issue",
+    "color": "EDEDED"
+  },
+  {
+    "name": "🪄 feature request",
+    "description": "Suggestion or request for a new feature",
+    "color": "A2EEEF"
+  }
+]

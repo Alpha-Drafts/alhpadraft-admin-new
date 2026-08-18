@@ -1,0 +1,30 @@
+@layer base {
+  /* Preline: Adds pointer cursor to buttons */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* to ensure that when you click on an id link, the header will not cover the beginning of the content the id is pointing to */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* to smoothly animate the scroll from one place to another place */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-white font-sans text-gray-900 dark:bg-neutral-800 dark:text-white;
+  }
+
+  /* h1 {
+    font-size: var(--text-2xl);
+  }
+  h2 {
+    font-size: var(--text-xl);
+  } */
+}
