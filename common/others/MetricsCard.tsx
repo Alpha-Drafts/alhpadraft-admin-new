@@ -25,19 +25,17 @@ export const MetricsCard = ({
       const viewportWidth = window.innerWidth;
 
       const tooltipWidth = tooltipRef.current.offsetWidth;
-      const margin = 16; // Margin from viewport edges
+      const margin = 16;
       const iconCenter = iconRect.left + iconRect.width / 2;
 
-      // Check if tooltip would overflow on the left side
       if (iconCenter - tooltipWidth / 2 < margin) {
         setTooltipPosition("left");
-      }
-      // Check if tooltip would overflow on the right side
-      else if (iconCenter + tooltipWidth / 2 > viewportWidth - margin) {
+      } else if (
+        iconCenter + tooltipWidth / 2 >
+        viewportWidth - margin
+      ) {
         setTooltipPosition("right");
-      }
-      // Default centered position
-      else {
+      } else {
         setTooltipPosition("center");
       }
     }
@@ -73,7 +71,7 @@ export const MetricsCard = ({
     return `${baseClasses} ${positionClasses[tooltipPosition]}`;
   };
 
-  const CardContent = () => (
+  const cardContent = (
     <>
       <div className="bg-primary-50 text-primary-500 w-fit rounded-full p-2 text-2xl">
         {icon}
@@ -84,6 +82,7 @@ export const MetricsCard = ({
           <h2 className="text-body-semibold-14 text-neutral-700 uppercase">
             {title}
           </h2>
+
           {tooltipText && (
             <div className="relative">
               <button
@@ -97,7 +96,6 @@ export const MetricsCard = ({
                 <Info size={20} className="text-primary-300" />
               </button>
 
-              {/* Tooltip with dynamic positioning */}
               <span
                 ref={tooltipRef}
                 className={getTooltipClasses()}
@@ -107,7 +105,7 @@ export const MetricsCard = ({
                 }}
               >
                 {tooltipText}
-                {/* Tooltip arrow with dynamic positioning */}
+
                 <div
                   className={getArrowClasses()}
                   style={{ marginTop: "-4px" }}
@@ -121,6 +119,7 @@ export const MetricsCard = ({
           <span className="text-primary-600 text-2xl font-semibold">
             {value}
           </span>
+
           {subValue && (
             <span className="text-body-semibold-14 text-primary-500 flex gap-1">
               ({subValue})
@@ -136,11 +135,11 @@ export const MetricsCard = ({
       onClick={() => router.push(link)}
       className="hover:bg-primary-50 hover:ring-primary-200 focus:ring-primary-200 relative w-full space-y-8 border border-transparent bg-white p-8 text-left shadow-lg transition-colors hover:ring-2 focus:ring-2 focus:outline-none"
     >
-      <CardContent />
+      {cardContent}
     </button>
   ) : (
     <div className="relative space-y-8 bg-white p-8 shadow-lg">
-      <CardContent />
+      {cardContent}
     </div>
   );
 };
