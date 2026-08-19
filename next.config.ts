@@ -46,4 +46,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-module.exports = bundleAnalyzer(nextConfig);
+export default bundleAnalyzer(nextConfig);

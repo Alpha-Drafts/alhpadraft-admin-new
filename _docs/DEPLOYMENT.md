@@ -1,10 +1,10 @@
 # DEPLOYMENT — Netlify (OpenNext) configuration & environment
 
-Purpose: document how the alpha-drafts admin app deploys to Netlify after the firebase removal (A5/A6). Mirrors `alhpadraft-new`'s Netlify setup (zero-config OpenNext, no `netlify.toml`). Companion to `REPOINT_MAP.md` (backend repoint) and `AUTH_CONTRACT.md` (cookie-JWT session).
+Purpose: document how the alpha-drafts admin app deploys to Netlify after the firebase removal (A5/A6). Uses the OpenNext adapter (`@netlify/plugin-nextjs`) configured via `netlify.toml`. Companion to `REPOINT_MAP.md` (backend repoint) and `AUTH_CONTRACT.md` (cookie-JWT session).
 
-## 1. Build settings (mirror `alhpadraft-new` — no `netlify.toml`)
+## 1. Build settings (`netlify.toml` with OpenNext plugin)
 
-Netlify uses the OpenNext adapter (`@netlify/plugin-nextjs`), which is auto-detected for Next.js apps. No `netlify.toml` is committed in this repo, and `alhpadraft-new` has none either — do **not** add one.
+Netlify uses the OpenNext adapter (`@netlify/plugin-nextjs`), explicitly configured in `netlify.toml` at the repo root.
 
 | Setting           | Value                         | Notes                                                                     |
 | ----------------- | ----------------------------- | ------------------------------------------------------------------------- |
@@ -43,7 +43,7 @@ Netlify injects `NEXT_PUBLIC_NETLIFY=true`, commit refs, etc. at build time; the
 ## 4. Pre-launch checklist
 
 1. Set `BACKEND_URL` (and `NODE_VERSION=22`) in the Netlify site → Environment variables.
-2. Do not add a `netlify.toml` (mirror `alhpadraft-new`).
+2. `netlify.toml` is committed with the OpenNext plugin configured.
 3. Verify first deploy: `/admin/overview` metrics render, `admin/users` paginates, `admin/subscriptions` loads → all proxy via `/v1/*`.
 4. Verify the auth loop on the deployed origin: login, refresh-after-idle, logout; then `forgot-password` → `verify-email` (and `reset-password`) round-trips against `POST /v1/auth/*`.
 5. Confirm 401 → single-flight refresh still works under the Netlify function cold-start (OpenNext) — the client retries once after refresh (`utils/api/apiClient.ts`).
