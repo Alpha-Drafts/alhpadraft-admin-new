@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ProjectHistoryProps, ProjectProps } from "@/types";
+import React, { useMemo, useState } from "react";
+import { ProjectHistoryProps } from "@/types";
 import {
   formatError,
   formatTimestampToDateTwo,
@@ -30,8 +30,6 @@ const ProjectTable = () => {
 
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [projectsHistory, setProjectsHistory] = useState<ProjectProps[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string>(statuses[0]);
 
   const handleSortSelection = (sort: string) => {
@@ -47,12 +45,14 @@ const ProjectTable = () => {
     enabled: !!token && !!currentPage && !!itemsPerPage && !!selectedStatus,
   });
 
-  useEffect(() => {
-    if (projectsData) {
-      setProjectsHistory(projectsData?.data);
-      setTotalPages(Math.ceil(projectsData?.totalCount / itemsPerPage));
-    }
-  }, [projectsData]);
+  const projectsHistory = useMemo(
+    () => projectsData?.data ?? [],
+    [projectsData],
+  );
+  const totalPages = Math.max(
+    1,
+    Math.ceil((projectsData?.totalCount ?? 0) / itemsPerPage),
+  );
 
   // Pagination actions
   const handlePrevPage = () => {

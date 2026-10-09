@@ -8,13 +8,13 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      "lh3.googleusercontent.com",
-      "firebasestorage.googleapis.com",
-      "placeholderjs.com",
-      "randomuser.me",
-      "images.unsplash.com",
-      "plus.unsplash.com",
+    remotePatterns: [
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+      { protocol: "https", hostname: "placeholderjs.com" },
+      { protocol: "https", hostname: "randomuser.me" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "plus.unsplash.com" },
     ],
   },
   async redirects() {

@@ -19,7 +19,7 @@ import logo from "@/public/logo.svg";
 import { NavItemProps } from "@/types";
 
 const STYLES = {
-  link: "flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-body-semibold-16 text-black no-underline hover:text-primary-600 focus:bg--primary-600 focus:outline-none transition-colors",
+  link: "flex items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-body-semibold-16 text-black no-underline hover:text-primary-600 focus:bg-primary-600 focus:outline-none transition-colors",
   accordionButton:
     "hs-accordion-toggle flex w-full items-center gap-x-3.5 rounded-lg px-2.5 py-2 text-start text-body-semibold-16 text-black no-underline hover:text-primary-600 focus:text-primary-600 focus:outline-none text-body-semibold-16",
   accordionContent:

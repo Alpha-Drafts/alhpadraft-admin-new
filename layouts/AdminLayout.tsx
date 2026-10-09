@@ -21,7 +21,7 @@ const AdminLayout = ({
   title: string;
 }) => {
   const { isAuthorised, isLoading } = useAuthGuard(
-    "admin",
+    ["admin", "super_admin"],
     publicRoutes?.unauthorised,
   );
 

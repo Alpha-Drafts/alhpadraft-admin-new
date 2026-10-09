@@ -10,7 +10,7 @@ import { API_BASE_URL } from "@/constants";
 const OverviewContent = () => {
   const { token } = useClaims();
 
-  const { data, isFetching, error } = useFetchHook<PlatformStatisticsProps>({
+  const { data, isLoading, error } = useFetchHook<PlatformStatisticsProps>({
     endpoint: `${API_BASE_URL}/v1/admin/metrics`,
     enabled: !!token,
   });
@@ -21,7 +21,7 @@ const OverviewContent = () => {
 
   return (
     <>
-      {isFetching && <LoadingState />}
+      {isLoading && !data && <LoadingState />}
 
       <h1 className="mb-4 text-2xl font-medium">Overview</h1>
 

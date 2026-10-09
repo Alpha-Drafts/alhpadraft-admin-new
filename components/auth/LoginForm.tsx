@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LoginBanner } from "./Banners";
 import Link from "next/link";
 import { authRoutes } from "@/constants";
@@ -20,12 +20,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (loginError) {
-      setError(loginError);
-    }
-  }, [loginError]);
-
+  const displayError = error || loginError;
   const isDisabled = isProcessing;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -112,7 +107,7 @@ const LoginForm = () => {
               {/* End Form Group */}
 
               {/* Display error message */}
-              {error && <p className="error-message">{error}</p>}
+              {displayError && <p className="error-message">{displayError}</p>}
 
               <Button
                 type="submit"

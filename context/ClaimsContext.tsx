@@ -14,7 +14,6 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState,
   ReactNode,
 } from "react";
 import { useAuth } from "./AuthProvider";
@@ -42,7 +41,6 @@ const ClaimsContext = createContext<ClaimsContextProps | undefined>(undefined);
 export function ClaimsProvider({ children }: { children: ReactNode }) {
   const { user, loading: sessionLoading, refreshSession } = useAuth();
   const { setUserRoles, setIsAdmin, setIsSuperAdmin } = useDashboard();
-  const [claims, setClaims] = useState<ClaimsProps | null>(null);
 
   const syncRoles = useCallback(
     (roles: string[] | undefined) => {
@@ -55,21 +53,19 @@ export function ClaimsProvider({ children }: { children: ReactNode }) {
     [setUserRoles, setIsAdmin, setIsSuperAdmin],
   );
 
-  // Derive claims from the session user whenever it changes
+  const claims = useMemo<ClaimsProps | null>(() => {
+    if (!user) return null;
+    return {
+      roles: Array.isArray(user.roles) ? user.roles : ["user"],
+      email: user.email,
+      email_verified: Boolean(user.emailVerified),
+    };
+  }, [user]);
+
+  // Sync roles to DashboardContext whenever claims change
   useEffect(() => {
-    if (user) {
-      const nextClaims: ClaimsProps = {
-        roles: Array.isArray(user.roles) ? user.roles : ["user"],
-        email: user.email,
-        email_verified: Boolean(user.emailVerified),
-      };
-      setClaims(nextClaims);
-      syncRoles(nextClaims.roles);
-    } else {
-      setClaims(null);
-      syncRoles([]);
-    }
-  }, [user, syncRoles]);
+    syncRoles(claims?.roles);
+  }, [claims, syncRoles]);
 
   // Explicit refresh (used after login/logout)
   const refreshClaims = useCallback(async (): Promise<ClaimsProps | null> => {
@@ -80,10 +76,10 @@ export function ClaimsProvider({ children }: { children: ReactNode }) {
         email: next.email,
         email_verified: Boolean(next.emailVerified),
       };
-      setClaims(nextClaims);
       syncRoles(nextClaims.roles);
       return nextClaims;
     }
+    syncRoles([]);
     return null;
   }, [refreshSession, syncRoles]);
 

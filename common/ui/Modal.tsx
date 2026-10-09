@@ -36,23 +36,36 @@ export const Modal = ({
   const [animateIn, setAnimateIn] = useState(false);
 
   useEffect(() => {
+    let tick: NodeJS.Timeout;
+    let timeout: NodeJS.Timeout;
+    let raf: number;
+
     if (isOpen) {
-      setVisible(true);
-      setAnimateOut(false);
-      setAnimateIn(false);
-      // Trigger animateIn after mount
-      const tick = setTimeout(() => {
+      raf = requestAnimationFrame(() => {
+        setVisible(true);
+        setAnimateOut(false);
+        setAnimateIn(false);
+      });
+      tick = setTimeout(() => {
         setAnimateIn(true);
-      }, 20); // 1 frame delay
-      return () => clearTimeout(tick);
+      }, 20);
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(tick);
+      };
     } else if (visible) {
-      setAnimateOut(true);
-      setAnimateIn(false);
-      const timeout = setTimeout(() => {
+      raf = requestAnimationFrame(() => {
+        setAnimateOut(true);
+        setAnimateIn(false);
+      });
+      timeout = setTimeout(() => {
         setVisible(false);
         setAnimateOut(false);
       }, ANIMATION_DURATION);
-      return () => clearTimeout(timeout);
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(timeout);
+      };
     }
   }, [isOpen, visible]);
 

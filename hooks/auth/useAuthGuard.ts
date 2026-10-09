@@ -3,7 +3,7 @@
  * It handles redirection for unauthenticated users and role-specific access, and updates dashboard context state.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "@/context/AuthProvider";
 import { useClaims } from "@/context/ClaimsContext";
@@ -22,72 +22,52 @@ export const useAuthGuard = (
   const {
     userRoles: currentUserRoles,
     setUserRoles,
-    setActiveDashboard,
   } = useDashboard();
-  const [isAuthorised, setIsAuthorised] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const userRoles = useMemo(
+    () => (customClaims?.roles || []) as UserRoleType[],
+    [customClaims?.roles],
+  );
+  const required = requiredRoles
+    ? Array.isArray(requiredRoles)
+      ? requiredRoles
+      : [requiredRoles]
+    : null;
+  const hasRole =
+    !required ||
+    required.some(role => userRoles.includes(role as UserRoleType));
+
+  const isLoading = authLoading || (Boolean(user) && claimsLoading);
+  const isAuthorised = Boolean(user) && !claimsLoading && hasRole;
 
   useEffect(() => {
-    // If auth is still loading, wait
-    if (authLoading) return;
+    if (isLoading) return;
 
-    // If user is not authenticated, redirect to login
     if (!user) {
       if (!router.pathname.startsWith("/auth/")) {
         router.push(
           `${authRoutes?.login}?redirect=${encodeURIComponent(router.asPath)}`,
         );
       }
-      setIsLoading(false);
       return;
     }
 
-    // If claims are still loading, allow access temporarily
-    if (claimsLoading) {
-      setIsAuthorised(true);
-      setIsLoading(false);
-      return;
-    }
-
-    // Once claims are loaded, perform role check
-    const userRoles = (customClaims?.roles || []) as UserRoleType[];
-
-    // Only update userRoles if they've changed
     if (!isEqual(userRoles, currentUserRoles)) {
       setUserRoles(userRoles);
     }
 
-    // If requiredRoles is set, check if user has at least one of them
-    if (requiredRoles) {
-      const required = Array.isArray(requiredRoles)
-        ? requiredRoles
-        : [requiredRoles];
-      const hasRole = required.some(role =>
-        userRoles.includes(role as UserRoleType),
-      );
-      if (!hasRole) {
-        router.push(redirectOnDenied);
-        setIsAuthorised(false);
-        setIsLoading(false);
-        return;
-      }
+    if (!hasRole) {
+      router.push(redirectOnDenied);
     }
-
-    setIsAuthorised(true);
-    setIsLoading(false);
   }, [
-    authLoading,
-    claimsLoading,
+    isLoading,
     user,
-    customClaims,
-    router.pathname,
-    router.asPath,
-    requiredRoles,
-    redirectOnDenied,
-    router,
-    setUserRoles,
-    setActiveDashboard,
+    userRoles,
     currentUserRoles,
+    setUserRoles,
+    hasRole,
+    router,
+    redirectOnDenied,
   ]);
 
   return { isAuthorised, isLoading };

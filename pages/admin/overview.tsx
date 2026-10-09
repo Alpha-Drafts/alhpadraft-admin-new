@@ -14,7 +14,7 @@ Page.getLayout = function PageLayout(page: React.ReactNode) {
   const breadcrumbs = [{ name: "Overview", href: adminRoutes?.overview }];
 
   return (
-    <AdminLayout breadcrumbs={breadcrumbs} title="Admins Management">
+    <AdminLayout breadcrumbs={breadcrumbs} title="Overview">
       <CustomHead title={site?.title + " Overview"} />
       {page}
     </AdminLayout>

@@ -27,9 +27,6 @@ const SubscriptionTable = () => {
   const { token } = useClaims();
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
@@ -54,12 +51,11 @@ const SubscriptionTable = () => {
     enabled: !!token,
   });
 
-  useEffect(() => {
-    const { items, total } = normalSubscriptionData(subscriptionsData);
-    setSubscriptions(items);
-    setTotalItems(total);
-    setTotalPages(Math.max(1, Math.ceil(total / itemsPerPage)));
-  }, [subscriptionsData]);
+  const { items: subscriptions, total: totalItems } = React.useMemo(
+    () => normalSubscriptionData(subscriptionsData),
+    [subscriptionsData],
+  );
+  const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
   useEffect(() => {
     if (fetchError) {

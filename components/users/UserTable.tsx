@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { UserHistoryProps, UserProps } from "@/types";
+import React, { useMemo, useState } from "react";
+import { UserHistoryProps } from "@/types";
 import { formatError, formatTimestampToDateTwo, getUserActions } from "@/utils";
 import Image from "next/image";
 import {
@@ -26,8 +26,6 @@ const UserTable = () => {
 
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [usersHistory, setUsersHistory] = useState<UserProps[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>(
     DEFAULT_SORT_OPTIONS_TWO[0],
   );
@@ -45,12 +43,11 @@ const UserTable = () => {
     enabled: !!token && !!currentPage && !!itemsPerPage && !!selectedSort,
   });
 
-  useEffect(() => {
-    if (usersData) {
-      setUsersHistory(usersData?.data);
-      setTotalPages(Math.ceil(usersData?.totalCount / itemsPerPage));
-    }
-  }, [usersData]);
+  const usersHistory = useMemo(() => usersData?.data ?? [], [usersData]);
+  const totalPages = Math.max(
+    1,
+    Math.ceil((usersData?.totalCount ?? 0) / itemsPerPage),
+  );
 
   // Pagination actions
   const handlePrevPage = () => {

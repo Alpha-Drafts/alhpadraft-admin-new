@@ -97,7 +97,7 @@ const NavBar = () => {
             aria-label="Brand"
           >
             <Image
-              alt="Nigerian-Made Logo"
+              alt="AlphaDrafts Logo"
               src={logo}
               width={150.5}
               height={39}

@@ -14,22 +14,36 @@ export const Tab = ({ tabs, className = "", queryParam }: TabProps) => {
   const { query } = router;
 
   // Track the currently active tab
-  const [activeTab, setActiveTab] = useState(tabs[0].key);
+  const [activeTabState, setActiveTabState] = useState(tabs[0].key);
+
+  const activeTab = React.useMemo(() => {
+    if (queryParam && query[queryParam]) {
+      const tabKey = query[queryParam] as string;
+      if (tabs.some(tab => tab?.key === tabKey)) {
+        return tabKey;
+      }
+    }
+    return activeTabState;
+  }, [query, queryParam, tabs, activeTabState]);
 
   // Reference for the tabs container to handle scrolling
   const tabsRef = useRef<HTMLDivElement>(null);
   // State to control visibility of scroll buttons
   const [showScrollButtons, setShowScrollButtons] = useState(false);
 
-  // Sync active tab with URL query parameter if provided
-  useEffect(() => {
-    if (queryParam && query[queryParam]) {
-      const tabKey = query[queryParam] as string;
-      if (tabs.some(tab => tab?.key === tabKey)) {
-        setActiveTab(tabKey);
-      }
+  const handleTabChange = (key: string) => {
+    setActiveTabState(key);
+    if (queryParam) {
+      router.push(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, [queryParam]: key },
+        },
+        undefined,
+        { shallow: true },
+      );
     }
-  }, [query, queryParam, tabs]);
+  };
 
   // Check if tabs container needs scroll buttons
   useEffect(() => {
@@ -84,7 +98,7 @@ export const Tab = ({ tabs, className = "", queryParam }: TabProps) => {
             <button
               key={tab?.key}
               type="button"
-              onClick={() => setActiveTab(tab?.key)}
+              onClick={() => handleTabChange(tab?.key)}
               className={`group text-body-semibold-16 flex items-center gap-2 border-b-4 p-2.5 whitespace-nowrap transition-colors ${
                 activeTab === tab?.key
                   ? "border-b-primary-600 text-black"

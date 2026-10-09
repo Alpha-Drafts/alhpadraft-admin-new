@@ -1,6 +1,6 @@
 import { MetricsCardProps } from "@/types";
 import { Info } from "lucide-react";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
 export const MetricsCard = ({
@@ -11,12 +11,11 @@ export const MetricsCard = ({
   tooltipText,
   link,
 }: MetricsCardProps) => {
-  const router = useRouter();
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState<
     "center" | "left" | "right"
   >("center");
-  const iconRef = useRef<HTMLButtonElement>(null);
+  const iconRef = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -85,16 +84,24 @@ export const MetricsCard = ({
 
           {tooltipText && (
             <div className="relative">
-              <button
+              <span
                 ref={iconRef}
-                type="button"
-                className="inline-flex cursor-pointer items-center justify-center border-none bg-transparent p-0"
+                tabIndex={0}
+                role="button"
+                className="inline-flex cursor-pointer items-center justify-center border-none bg-transparent p-0 focus:outline-none"
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
+                onFocus={() => setShowTooltip(true)}
+                onBlur={() => setShowTooltip(false)}
+                onClick={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setShowTooltip(prev => !prev);
+                }}
                 aria-label="Show info"
               >
                 <Info size={20} className="text-primary-300" />
-              </button>
+              </span>
 
               <span
                 ref={tooltipRef}
@@ -131,12 +138,12 @@ export const MetricsCard = ({
   );
 
   return link ? (
-    <button
-      onClick={() => router.push(link)}
-      className="hover:bg-primary-50 hover:ring-primary-200 focus:ring-primary-200 relative w-full space-y-8 border border-transparent bg-white p-8 text-left shadow-lg transition-colors hover:ring-2 focus:ring-2 focus:outline-none"
+    <Link
+      href={link}
+      className="hover:bg-primary-50 hover:ring-primary-200 focus:ring-primary-200 relative block w-full space-y-8 border border-transparent bg-white p-8 text-left shadow-lg transition-colors hover:ring-2 focus:ring-2 focus:outline-none"
     >
       {cardContent}
-    </button>
+    </Link>
   ) : (
     <div className="relative space-y-8 bg-white p-8 shadow-lg">
       {cardContent}

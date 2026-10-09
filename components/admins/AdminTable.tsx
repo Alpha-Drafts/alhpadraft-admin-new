@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AdminHistoryProps, AdminProps } from "@/types";
 import {
   formatError,
@@ -35,8 +35,6 @@ const AdminTable = ({
 
   const itemsPerPage = 50;
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [adminsHistory, setAdminsHistory] = useState<AdminProps[]>([]);
   const [selectedItem, setSelectedItem] = useState<AdminProps | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>(
@@ -73,12 +71,11 @@ const AdminTable = ({
       !!token && !!currentPage && !!itemsPerPage && !!selectedSort && !!type,
   });
 
-  useEffect(() => {
-    if (adminsData) {
-      setAdminsHistory(adminsData?.data);
-      setTotalPages(Math.ceil(adminsData?.total_count / itemsPerPage));
-    }
-  }, [adminsData]);
+  const adminsHistory = adminsData?.data ?? [];
+  const totalPages = Math.max(
+    1,
+    Math.ceil((adminsData?.total_count ?? 0) / itemsPerPage),
+  );
 
   // Pagination actions
   const handlePrevPage = () => {
