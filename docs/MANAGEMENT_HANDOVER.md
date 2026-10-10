@@ -80,3 +80,4 @@ The app is pre-configured for Netlify deployment via `netlify.toml` with the `@n
 - [`docs/TRD.md`](./TRD.md) — Formal Technical Requirements Document (Functional & Non-Functional).
 - [`docs/API_CONTRACT.md`](./API_CONTRACT.md) — Exhaustive REST endpoint specifications with sample request/responses.
 - [`docs/DEPLOYMENT.md`](./DEPLOYMENT.md) — Netlify OpenNext build & environment variable instructions.
+

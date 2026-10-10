@@ -117,3 +117,4 @@ flowchart TD
 - **Forgot Password (`/auth/forgot-password`):** Requests `POST /v1/auth/forgot-password` with `{ email }` and presents modal confirmation.
 - **Reset Password (`/auth?mode=resetPassword&oobCode=...`):** Validates password pattern and calls `POST /v1/auth/reset-password` with `{ token, password }`.
 - **Email Verification (`/auth?mode=verifyEmail&oobCode=...`):** Auto-triggers `POST /v1/auth/verify-email` with `{ token }` on mount and renders visual success/failure states.
+
